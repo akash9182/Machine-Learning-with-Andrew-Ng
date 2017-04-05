@@ -32,6 +32,12 @@ J = 1/m * (red - blue);
 %
 %grad = (1/ (2*m)) * theta' * theta;  
 
+for i = 1:size(theta,1) 
+
+  grad(i) = (1/m) * sum((htheta - y)' * X(:,i));
+
+end 
+
 
 % =============================================================
 
