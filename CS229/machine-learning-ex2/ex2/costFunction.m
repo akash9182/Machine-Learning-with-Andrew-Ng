@@ -34,11 +34,9 @@ J = 1/m * (red - blue);
 
 for i = 1:size(theta,1) 
 
-  grad(i) = (1/m) * sum((htheta - y)' * X(:,i));
+  grad(i) = (1/m) * ((htheta - y)' * X(:,i));
 
 end 
-
-
 % =============================================================
 
 end
