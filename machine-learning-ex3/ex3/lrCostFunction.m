@@ -44,16 +44,10 @@ J_reg = (lambda / (2*m)) * (theta(2:end)' * theta(2:end));
 
 J = (J_normal + J_reg);
 
-grad(1) = ((1/m) * sum((htheta - y)' * X(:,1)))
-
-for i = 2:size(theta,1) 
-
-  grad(i) = ((1/m) * ((htheta - y)' * X(:,i))) +  (lambda / m) * theta(i) ;
-
-end 
+temp = theta ;
+temp(1)=0;
+grad = ((1/m) * (X' * (htheta - y))) + (lambda/m * temp) ;
 
 % =============================================================
-
-grad = grad(:);
 
 end
