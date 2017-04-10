@@ -82,7 +82,17 @@ J = (1/m) * sum(sum((-y_matrix) .* log(A_layer3) - (1-y_matrix) .* log(1 - A_lay
 J = J + (lambda/(2*m)) * (sum(sum(Theta1(:,2:end).^2,2)) + sum(sum(Theta2(:,2:end).^2,2)));
 
 % -------------------------------------------------------------
+%  Backpropagation algorithm
 
+d3 = A_layer3 - y_matrix ;
+
+d2 = (d3 * Theta2)(:,2:end) .* (sigmoidGradient(Z_layer2'));
+
+Delta1 = d2' * A_layer1;
+Delta2 = d3' * A_layer2;
+
+Theta1_grad = (1/m) * Delta1 + (lambda/m)*[ zeros(hidden_layer_size , 1) Theta1(:,2:end)];
+Theta2_grad = (1/m) * Delta2 + (lambda/m)*[ zeros(num_labels , 1) Theta2(:,2:end)];
 % =========================================================================
 
 % Unroll gradients
