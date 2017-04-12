@@ -14,11 +14,10 @@ X_poly = zeros(numel(X), p);
 %               column of X contains the values of X to the p-th power.
 %
 % 
+vector1 = X;
+vector2 = (1:p);
 
-
-
-
-
+X_poly = bsxfun(@power, vector1, vector2);
 
 % =========================================================================
 
