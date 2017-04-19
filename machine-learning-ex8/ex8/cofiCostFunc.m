@@ -42,20 +42,39 @@ Theta_grad = zeros(size(Theta));
 
 
 
+predict_movie_rating = X * Theta';
+
+movie_rating_error =  Y - predict_movie_rating;
+
+error_factor = R .* movie_rating_error ;
+
+theta_reg = (lambda/2) * sum(sum(Theta.^2))
+
+x_reg = (lambda/2) * sum(sum(X .^2));
+
+J = (1/2) * sum(sum(error_factor.^2)) + theta_reg + x_reg;
+%
+%X_grad = R .*(movie_rating_error - Y) * Theta + (lambda * X);
+% 
+%Theta_grad = (R .*(movie_rating_error - Y))' * X + (lambda * Theta);
 
 
+% calculating gradient of x.
+for i = 1:num_movies
+  idx = find(R(i,:) == 1);  % users that have rated movie i.
+  Theta_temp = Theta(idx, :); % user features of movie i.
+  Y_temp  = Y(i, idx);        % user's ratings of movie 
+  X_grad(i,:) = (X(i,:) * Theta_temp' - Y_temp) * Theta_temp + lambda * X(i, :);
+end
 
-
-
-
-
-
-
-
-
-
-
-% =============================================================
+% calculating gradient of theta.
+for i = 1:num_users    
+  idx = find(R(:, i) == 1);   % movies that have rated by user i.
+  X_temp = X(idx,:);           % features of movies rated by user j
+  Y_temp = Y(idx,i);            % user ratings by user j.
+  Theta_grad(i,:) = (X_temp * Theta(i, :)' - Y_temp)' * X_temp + lambda * Theta(i, :);
+end
+%   =============================================================
 
 grad = [X_grad(:); Theta_grad(:)];
 
